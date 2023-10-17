@@ -22,7 +22,7 @@ public class AccountController {
         if (accountService.login(name, password)) {
             Map<String, String> payload = new HashMap<>();
             payload.put("name", name);
-            payload.put("password", password);
+//            payload.put("password", password); // 存放密码是不安全的
 
             String token = JwtUtil.getToken(payload);
 
