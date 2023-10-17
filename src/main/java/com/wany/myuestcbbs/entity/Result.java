@@ -35,14 +35,29 @@ public class Result {
         this.data = data;
     }
 
+    /**
+     * 成功 200
+     * @param data
+     * @return
+     */
     public static Result SUCCESS(Object data) {
         return new Result(ResultCode.SUCCESS, data);
     }
 
+    /**
+     * 自定义响应码失败
+     * @param resultCode
+     * @return
+     */
     public static Result FAIL(ResultCode resultCode) {
         return new Result(resultCode);
     }
 
+    /**
+     * 失败 400
+     * @param message
+     * @return
+     */
     public static Result FAIL(String message) {
         return new Result(400 , message);
     }

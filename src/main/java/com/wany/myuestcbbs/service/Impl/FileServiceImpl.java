@@ -21,28 +21,39 @@ public class FileServiceImpl implements FileService {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     @Override
-    public String upLoadSingleFile(byte[] content , String originFileName) {
+    public String upLoadSingleFile(byte[] content , String originFileName) throws IOException{
         String folder = GenerateFilePath();
         String fileName = GenerateFileName(originFileName.substring(originFileName.lastIndexOf(".")));
-        String filePath = FILE_PATH + folder + java.io.File.separatorChar;
-        try {
-            java.io.File file = new java.io.File(filePath);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            java.io.File targetFile = new java.io.File(filePath + fileName);
-            java.io.FileOutputStream out = new FileOutputStream(targetFile);
-            IOUtils.copy(new ByteArrayInputStream(content), out);
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        String filePath = FILE_PATH + folder;
+
+        java.io.File file = new java.io.File(filePath);
+        if (!file.exists()) {
+            file.mkdirs();
         }
-        return folder + java.io.File.separatorChar + fileName;
+
+        FileOutputStream os = new FileOutputStream(filePath + fileName);
+        ByteArrayInputStream is = new ByteArrayInputStream(content);
+        IOUtils.copy(is, os);
+        os.flush();
+        os.close();
+//        try {
+//            java.io.File file = new java.io.File(filePath);
+//            if (!file.exists()) {
+//                file.mkdirs();
+//            }
+//            java.io.File targetFile = new java.io.File(filePath + fileName);
+//            java.io.FileOutputStream out = new FileOutputStream(targetFile);
+//            IOUtils.copy(new ByteArrayInputStream(content), out);
+//            out.flush();
+//            out.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        return folder + fileName;
     }
 
     private String GenerateFileName(String suffix) {
-        return System.currentTimeMillis() + "_" + RandomUtil.getRandomNumber(6) + "." + suffix;
+        return System.currentTimeMillis() + "_" + RandomUtil.getRandomNumber(6) + suffix;
     }
 
     private String GenerateFilePath() {

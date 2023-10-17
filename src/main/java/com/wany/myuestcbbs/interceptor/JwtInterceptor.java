@@ -17,7 +17,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         } catch (Exception e) {
             response.setStatus(401);
             response.setContentType("application/json:charset=UTF=8");
-            String json = "{\"code\":401,\"message\":\"Unauthorized\"}";
+            String json = "{\"status\":401,\"message\":\"Unauthorized\"}";
             response.getWriter().println(json);
             return false;
         }
